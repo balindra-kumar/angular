@@ -1,0 +1,28 @@
+how to generate link from the text in angular pipe
+Step 1
+ng generate pipe linkify
+===========================
+
+Step 2
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'linkify'
+})
+export class LinkifyPipe implements PipeTransform {
+  transform(text: string): string {
+    if (!text) {
+      return text;
+    }
+
+    const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/g;
+
+    return text.replace(urlRegex, (url) => {
+      return `<a href="${url}" target="_blank">${url}</a>`;
+    });
+  }
+}
+
+Step 3 
+==============
+<p [innerHTML]="commentText | linkify"></p>
