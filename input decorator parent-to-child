@@ -1,0 +1,16 @@
+@Input Decorator is used to transfer data from parent to child
+===============================================================
+
+step 1 = create two components which one is parent and second is child
+step 2 = parent component 
+html file = <app-child [myData]="inputValue"></app-child>
+ts file = inputValue="This is the parent component";
+
+step 3 = child component
+ts file = import {Input } from '@angular/core';
+create a variable to store data from parent to child 
+@Input myData!: string;
+
+step 3 = html page
+
+<h3>{{myData}}</h3>
