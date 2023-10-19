@@ -1,0 +1,24 @@
+step 1 : go to child component
+in ts file = import { Output, EventEmitter } from '@angular/core';
+
+ @Output() myChildData:EventEmitter<string> = new EventEmitter()
+
+ outPutString = "this is output data"
+ sendData(){
+  this.myChildData.emit(this.outPutString);
+ }
+
+step 2 html =     <button (click)="sendData()">Send Data from child to parent</button>
+
+step 3 = Go to parent component
+-------------
+te file
+ childInputData:any = "";
+ getData(data:any){
+  this.childInputData=data;
+ }
+html file
+<p>parent works!</p>
+<app-child [myData]="inputValue" (myChildData)="getData($event)"></app-child>
+
+<p>{{childInputData}}</p>
