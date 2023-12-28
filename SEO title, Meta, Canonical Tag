@@ -1,0 +1,37 @@
+import { CommonModule } from '@angular/common';
+import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Title,Meta } from '@angular/platform-browser';
+
+import {Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule,HttpClientModule],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.sass'
+})
+
+export class HomeComponent implements OnInit {
+ constructor( @Inject(DOCUMENT) private dom:any,private http:HttpClient,private title:Title, private meta:Meta){}
+ 
+  postData:any=[]
+  ngOnInit(): void {
+    this.http.get("http://balindra.com/post/read.php").subscribe((data)=>{
+      this.postData = data;
+      this.title.setTitle('WElcome to blog page');
+      this.meta.addTags([
+        {name:'description',content:'This is blog page content'},
+        {name:'keywords', content:'blog page, blog website , blog content'},
+       
+      ])
+    
+      const link = this.dom.createElement('link'); 
+      link.setAttribute('rel','canonical');
+      link.setAttribute('href',window.location.href);
+      this.dom.head.appendChild(link);
+    })
+  }
+}
