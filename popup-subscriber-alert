@@ -1,0 +1,218 @@
+
+<style>
+
+
+.popup-subscribe
+  max-width: 808px
+  margin-left: auto
+  margin-right: auto
+  display: -webkit-box
+  display: -ms-flexbox
+  display: flex
+  -webkit-box-align: center
+  -ms-flex-align: center
+  align-items: center
+  background-color: #fff
+  position: relative
+  -webkit-transition: 0.4s ease-in-out
+  transition: 0.4s ease-in-out
+  -webkit-animation: newsLetter 1.2s ease
+  animation: newsLetter 1.2s ease
+  font-family: Poppins, sans-serif
+  /* Small devices
+
+.popup-subscribe-area
+  position: fixed
+  inset: 0
+  display: grid
+  -ms-flex-line-pack: center
+  align-content: center
+  background-color: rgba(0, 0, 0, 0.8)
+  z-index: 9999
+  -webkit-transition: 0.4s ease-in-out
+  transition: 0.4s ease-in-out
+  -webkit-transition-delay: 0.6s
+  transition-delay: 0.6s
+
+  &.hide
+    visibility: hidden
+    opacity: 0
+    pointer-events: none
+
+.popup-subscribe
+  .newsletter-form input
+    height: 30px
+    width: 70%
+    border-radius: 4px
+    border: 1px solid grey
+    margin-right: 10px
+    padding-left: 10px
+    margin-bottom: 10px
+
+  .icon-btn
+    padding: 9px
+    background: red
+    color: #fff
+    border: 1px solid white
+    border-radius: 6px
+  .popupClose
+    position: absolute
+    top: 15px
+    right: 20px
+
+  .widget
+    margin-bottom: 0
+
+  input[type=checkbox] ~ label
+    margin-bottom: -0.5em
+    font-size: 14px
+
+  .widget_title
+    color: red
+    font-size: 30px
+    margin-bottom: 30px
+    margin: 0
+    padding: 0
+  .box-content
+    padding-left: 15px
+
+    /* Medium devices
+    /* Small devices
+
+  .box-img
+    height: 100%
+
+
+    /* Medium devices
+    /* Small devices
+
+    img
+      height: 100%
+      -o-object-fit: cover
+      object-fit: cover
+      width: 314px
+      height: 294px
+      padding: 10px
+      border-radius: 10px
+
+@media (max-width: 767px)
+  .popup-subscribe
+    -webkit-box-orient: vertical
+    -webkit-box-direction: normal
+    -ms-flex-direction: column
+    flex-direction: column
+
+@media (max-width: 991px)
+  .popup-subscribe .box-content
+    padding: 30px
+
+@media (max-width: 767px)
+  .popup-subscribe .box-content
+    text-align: center
+    padding: 40px 20px
+
+@media (max-width: 991px)
+  .popup-subscribe .box-img
+    width: 336px
+
+@media (max-width: 767px)
+  .popup-subscribe .box-img
+    width: 100%
+
+    img
+      width: 100%
+
+@-webkit-keyframes newsLetter
+  0%
+    -webkit-transform: scale(0.5)
+    transform: scale(0.5)
+
+  100%
+    -webkit-transform: scale(1)
+    transform: scale(1)
+
+@keyframes newsLetter
+  0%
+    -webkit-transform: scale(0.5)
+    transform: scale(0.5)
+
+  100%
+    -webkit-transform: scale(1)
+    transform: scale(1)
+
+@-webkit-keyframes newsLetterclose
+  0%
+    -webkit-transform: scale(1)
+    transform: scale(1)
+    opacity: 1
+
+  100%
+    -webkit-transform: scale(0.6)
+    transform: scale(0.6)
+    opacity: 0
+
+@keyframes newsLetterclose
+  0%
+    -webkit-transform: scale(1)
+    transform: scale(1)
+    opacity: 1
+
+  100%
+    -webkit-transform: scale(0.6)
+    transform: scale(0.6)
+    opacity: 0
+
+.popup-subscribe-area.hide .popup-subscribe
+  -webkit-animation: newsLetterclose 1s ease
+  animation: newsLetterclose 1s ease
+
+
+</style>
+
+@if(isVisible){
+<div class="popup-subscribe-area">
+    <div class="container">
+        <div class="popup-subscribe">
+            <div class="box-img"><img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/VVCAnimation6_1.gif" alt="Image"></div>
+            <div class="box-content"><button class="simple-icon popupClose" (click)="closePopu()"><i class="fal fa-times">&times;</i></button>
+                <div class="widget newsletter-widget footer-widget">
+                    <h3 class="widget_title">Subscribe</h3>
+                    <p class="footer-text">Sign up to get update about us. Don't be hasitate your email is safe.</p>
+                    <form class="newsletter-form"><input class="form-control" type="email" placeholder="Enter Email"
+                            required=""> <button type="submit" class="icon-btn">Subscribe</button></form>
+                    <div class="mt-30"><input type="checkbox" id="destroyPopup"> <label for="destroyPopup">I don't want
+                            to see this popup again.</label></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+
+ isVisible:boolean = false;
+  getPopupStatus:string | null | undefined ;
+ 
+  constructor(){
+   
+  if(typeof localStorage !=='undefined'){
+    this.getPopupStatus=localStorage.getItem("popup");
+    if(this.getPopupStatus === 'closed'){
+      this.isVisible = false
+    }
+    else{
+   
+      this.isVisible = true
+      
+    }
+  }
+  }
+ 
+    closePopu(){
+      if(typeof localStorage !== 'undefined'){
+      localStorage.setItem("popup",'closed');
+      }
+      this.isVisible = false
+       
+   
+}
