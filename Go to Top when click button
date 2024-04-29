@@ -1,0 +1,7 @@
+<button (click)="goTop()">Go to top</button>
+
+import { ViewportScroller } from '@angular/common';
+  goTop(){
+    this.viewportscrollbar.scrollToPosition([0,0])
+  }
+}
