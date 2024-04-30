@@ -73,3 +73,26 @@ export class AppComponent implements OnInit{
   }
 }
 
+
+About us page
+------------------
+import { Title, Meta } from '@angular/platform-browser';
+constructor(private titleService:Title, private metaService: Meta, private http:HttpClient){}
+
+this.titleService.setTitle("About title");
+    this.metaService.addTags([
+      {name:'description', content:"About title description"},
+      {name: 'author', content:"Balindra Kumar"},
+      {name:"robots", content:"index, follow"}
+    ])
+
+
+
+
+
+
+
+
+
+
+
