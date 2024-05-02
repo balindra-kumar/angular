@@ -1,0 +1,116 @@
+Create SSR POST TITEL 
+-----------------------
+app.component.ts
+----------------
+
+import { Component,OnInit } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import {RouterLink,ActivatedRoute,NavigationEnd } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { Title,Meta } from '@angular/platform-browser';
+import { Inject } from '@angular/core';
+import { filter } from 'rxjs/operators';
+import { SubscriberComponent } from './home/post_cat/subscriber/subscriber.component';
+// declare var $:any;
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, SubscriberComponent,RouterLink],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+
+
+
+export class AppComponent implements OnInit{
+
+  setcolor: boolean = false;
+  setClass:boolean = true;
+  twoWay:any;
+
+  constructor(
+    private titleService:Title,
+     private metaService: Meta,
+      private router: Router, 
+      private activatedRoute: ActivatedRoute,
+      @Inject(DOCUMENT) private document: any
+     ){
+ }
+  
+  
+
+
+
+  ngOnInit():void{
+    this.router.events.pipe(filter((event:any)=>event instanceof NavigationEnd)).subscribe(()=>{
+      this.updateMetaTags("description");
+      this.updateMetaTags("author");
+
+      this.updateCanonicalUrl();
+    })
+   
+  }
+
+  private updateMetaTags(nameValue:string): void {
+    const route = this.activatedRoute.firstChild;
+  
+    if (route) {
+      route.data.subscribe((data:any) => {
+        let x=this.document.querySelectorAll(`meta[name="${nameValue}"]`);
+       if(x){
+        this.removeElement(x);
+       }
+        this.titleService.setTitle(data);
+    
+      });
+    }
+  }
+
+   removeElement(elem:any) {
+    elem.parentNode?.removeChild(elem);
+    return false;
+}
+  private updateCanonicalUrl():void{
+    const canonicalUrl =this.router.url; 
+    const head = this.document.getElementsByTagName('head')[0];
+    var element: HTMLLinkElement = this.document.querySelector(`link[rel='canonical']`) || null;
+    if (element == null) {
+      element = this.document.createElement('link') as HTMLLinkElement;
+      head.appendChild(element);
+    }
+    element.setAttribute('rel', 'canonical');
+    element.setAttribute('href', canonicalUrl);
+
+   
+  }
+    }
+
+
+Top component
+--------------------
+
+
+@for(topnews of topPostArray.slice(0,1); track topnews.id){
+	<div>
+		<a class="entry-inner" routerLink="/news/{{topnews.post_cat}}/{{topnews.post_url}}" title="{{topnews.post_title}}">
+			{{topnews.post_title}}
+		</a>
+	</div>
+}@empty{
+	<div>No Data</div>
+}
+
+
+Routes.ts
+----------
+ {path: ':title/:id', component:AllPostComponent},
+
+
+
+
+
+
+
+
+
