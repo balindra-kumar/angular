@@ -1,0 +1,76 @@
+<div id="google_translate">
+<button href="#" id="englishBtn" class="englishlang btn btn-sm btn-warning"  onclick="changeLanguage('en')">English</button>
+<button href="#" id="hindiBtn" class="hindilang btn btn-sm btn-warning" onclick="changeLanguage('hi')">Hindi</button>
+
+</div>
+     
+     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script type="text/javascript"> 
+     
+        var getUserClick = sessionStorage.getItem('english');
+        console.log('User click', getUserClick)
+        function googleTranslateElementInit() {
+            var googleTranslate = new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi',  // Include both English and Hindi
+                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+            }, 'google_translate');
+
+            changeLanguage(getUserClick)
+       
+        }
+
+     
+
+
+        function changeLanguage(language) {
+                    debugger;
+                    var selectField = document.querySelector("#google_translate select");
+
+                    for (var i = 0; i < selectField.children.length; i++) {
+                        var option = selectField.children[i];
+
+                        if (option.value == language) {
+                            selectField.selectedIndex = i;
+                            selectField.dispatchEvent(new Event('change'));
+                            break;
+                        }
+                    }
+                }
+
+
+// English button par click karne par page ko English mein translate kare
+document.getElementById('englishBtn').addEventListener('click', function () {
+    changeLanguage('en');
+    sessionStorage.setItem('english', 'en');
+                });
+
+            // Hindi button par click karne par page ko Hindi mein translate kare
+            document.getElementById('hindiBtn').addEventListener('click', function () {
+                changeLanguage('hi');
+                sessionStorage.setItem('english', 'hi');
+            });
+
+
+        let getLanguage1 = sessionStorage.getItem('english');
+
+
+        if (getLanguage1 === "en") {
+
+            let a = document.querySelector('.englishlang');
+            a.style.display = "none"; // Removing the !important
+          
+          
+        }
+
+        if (getLanguage1 === "hi") {
+            let a = document.querySelector('.hindilang');
+            a.style.display = "none"; // Removing the !important
+            a.style.color = "red"; // Removing the !important
+          
+        }
+
+       
+
+    </script>
