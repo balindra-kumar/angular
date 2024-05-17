@@ -1,0 +1,65 @@
+const fs = require('fs');
+
+const fetchdata =()=>{ 
+    fetch("https://hinditerm.com/demo/post/read.php")
+    .then(response => {
+       return response.json();
+       }).then(data => {
+        writeSitemapFile(data, filePath)
+    })
+}
+fetchdata()
+
+// const data1 = [
+//     {
+//         loc: 'https://www.example.com/page1',
+//         lastmod: '2026-05-18T10:30:00+05:30',
+//         changefreq: 'weekly',
+//         priority: '1.0'
+//     },
+//     {
+//         loc: 'https://www.example.com/page2',
+//         lastmod: '2024-05-17T15:45:00-08:00',
+//         changefreq: 'weekly',
+//         priority: '1.0'
+//     },
+//     // Add more URL objects as needed
+// ];
+
+
+function generateSitemapXml(data1) {
+console.log(data1)
+    const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      ${data1.map(url => `
+        <url>
+          <loc>${url.post_cat}/${url.post_url}</loc>
+          <lastmod>${url.lastmod}</lastmod>
+          <changefreq>${url.changefreq}</changefreq>
+          <priority>${url.priority}</priority>
+        </url>`).join('')}
+    </urlset>`;
+    return xmlContent;
+}
+
+function writeSitemapFile(data1, filePath) {
+    const xmlContent = generateSitemapXml(data1);
+    fs.writeFileSync(filePath, xmlContent);
+    console.log('Sitemap generated successfully at:', filePath);
+}
+
+
+
+const filePath = './sitemap.xml'; // Adjust the file path as needed
+
+
+
+
+
+
+
+
+
+
+
+
