@@ -24,19 +24,29 @@ fetchdata()
 //         priority: '1.0'
 //     },
 //     // Add more URL objects as needed
+//2021-05-26T17:16:39+00:00
 // ];
 
 
 function generateSitemapXml(data1) {
 console.log(data1)
+function changeTimeStamp(timestamp){
+     // Convert to a Date object
+const date = new Date(timestamp);
+// Format the date to the desired string
+return formattedTimestamp = date.toISOString().replace(/\.\d{3}Z$/, "+00:00");
+
+}
+  
     const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       ${data1.map(url => `
+
         <url>
           <loc>${url.post_cat}/${url.post_url}</loc>
-          <lastmod>${url.lastmod}</lastmod>
-          <changefreq>${url.changefreq}</changefreq>
-          <priority>${url.priority}</priority>
+          <lastmod>${changeTimeStamp(url.post_update_date)}</lastmod>
+          <changefreq>weekly</changefreq>
+          <priority>1.0</priority>
         </url>`).join('')}
     </urlset>`;
     return xmlContent;
@@ -51,15 +61,5 @@ function writeSitemapFile(data1, filePath) {
 
 
 const filePath = './sitemap.xml'; // Adjust the file path as needed
-
-
-
-
-
-
-
-
-
-
 
 
