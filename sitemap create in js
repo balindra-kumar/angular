@@ -63,3 +63,100 @@ function writeSitemapFile(data1, filePath) {
 const filePath = './sitemap.xml'; // Adjust the file path as needed
 
 
+
+
+in Angular ssr
+================================
+
+
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Injectable } from '@angular/core';
+import * as fs from 'fs'
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet,HttpClientModule],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.sass'
+})
+@Injectable({providedIn: 'root'})
+export class AppComponent implements OnInit{
+  title = 'sitemap';
+  filePath = './sitemap.xml';
+  constructor(private http:HttpClient){}
+
+  ngOnInit(){
+    this.fetchData();
+  }
+  alert(){
+ // this.http.get('https')
+  }
+
+  fetchData(){
+    fetch("https://hinditerm.com/demo/post/read.php")
+    .then(response => {
+       return response.json();
+       }).then(data => {
+        this.writeSitemapFile(data, this.filePath)
+    })
+  }
+
+  writeSitemapFile(data1:any, filePath:string) {
+    const xmlContent = this.generateSitemapXml(data1);
+    fs.writeFile(filePath, xmlContent,(err)=>{
+      console.log(err);
+    });
+    // fs.writeFileSync(filePath, xmlContent);
+    console.log('Sitemap generated successfully at:', filePath);
+}
+
+ generateSitemapXml(data1:any) {
+  console.log(data1)
+  
+    
+      const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        ${data1.map((url:any) => `
+  
+          <url>
+            <loc>${url.post_cat}/${url.post_url}</loc>
+            <lastmod>${this.changeTimeStamp(url.post_update_date)}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>1.0</priority>
+          </url>`).join('')}
+      </urlset>`;
+      return xmlContent;
+  }
+
+
+   changeTimeStamp(timestamp:any){
+    // Convert to a Date object
+  const date = new Date(timestamp);
+  // Format the date to the desired string
+  return  date.toISOString().replace(/\.\d{3}Z$/, "+00:00");
+  
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
